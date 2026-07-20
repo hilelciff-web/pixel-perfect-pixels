@@ -1,32 +1,46 @@
 import { createFileRoute } from "@tanstack/react-router";
-import heroExterior from "@/assets/hero-exterior.jpg";
-import clinicDerm from "@/assets/clinic-derm.jpg";
-import clinicDental from "@/assets/clinic-dental.jpg";
-import clinicWellness from "@/assets/clinic-wellness.jpg";
-import buildingDetail from "@/assets/building-detail.jpg";
+import heroAsset from "@/assets/mosantt-hero.jpg.asset.json";
+import tourAsset from "@/assets/mosantt-tour.mp4.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const clinics = [
+type Sala = {
+  numero: string;
+  status: "Ocupada" | "Disponível";
+  ocupante?: string;
+  especialidade?: string;
+  nota?: string;
+};
+
+const salas: Sala[] = [
   {
-    suite: "Suíte 101",
-    name: "Dermatologia Avançada",
-    description: "Especialistas em rejuvenescimento natural e saúde da pele.",
-    image: clinicDerm,
+    numero: "01",
+    status: "Ocupada",
+    ocupante: "Dr. Alisson Mota Rabelo",
+    especialidade: "Consultório particular",
+    nota: "Atendimento por agendamento.",
   },
   {
-    suite: "Suíte 104",
-    name: "Odontologia Estética",
-    description: "Lentes de contato e reabilitação oral de alta performance.",
-    image: clinicDental,
+    numero: "02",
+    status: "Disponível",
+    nota: "Sala pronta para profissional de saúde ou estética.",
   },
   {
-    suite: "Suíte 202",
-    name: "Centro de Bem-Estar",
-    description: "Terapias integrativas e estética corporal avançada.",
-    image: clinicWellness,
+    numero: "03",
+    status: "Disponível",
+    nota: "Ideal para consultório clínico ou terapias.",
+  },
+  {
+    numero: "04",
+    status: "Disponível",
+    nota: "Ambiente iluminado, configuração flexível.",
+  },
+  {
+    numero: "05",
+    status: "Disponível",
+    nota: "Espaço reservado para nova clínica ou estúdio.",
   },
 ];
 
@@ -39,9 +53,9 @@ function Index() {
         </a>
         <div className="hidden md:flex gap-8 text-xs uppercase tracking-[0.2em] font-light">
           <a href="#espaco" className="hover:text-oak transition-colors">O Espaço</a>
-          <a href="#clinicas" className="hover:text-oak transition-colors">Clínicas</a>
+          <a href="#tour" className="hover:text-oak transition-colors">Tour</a>
+          <a href="#salas" className="hover:text-oak transition-colors">Salas</a>
           <a href="#localizacao" className="hover:text-oak transition-colors">Localização</a>
-          <a href="#contato" className="hover:text-oak transition-colors">Contato</a>
         </div>
       </nav>
 
@@ -53,7 +67,8 @@ function Index() {
               <span className="italic">melhor forma.</span>
             </h1>
             <p className="text-lg font-light leading-relaxed max-w-md text-charcoal/80">
-              Uma galeria de saúde e estética em Rio Branco. Um ecossistema de clínicas independentes unidas pelo design, bem-estar e excelência técnica.
+              Uma galeria de saúde e estética em Rio Branco. Um ecossistema de
+              clínicas independentes unidas pelo design, bem-estar e excelência técnica.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <a
@@ -72,10 +87,10 @@ function Index() {
           </div>
           <div className="col-span-12 lg:col-span-7">
             <img
-              src={heroExterior}
-              alt="Fachada do Edifício Mosantt em painéis de carvalho com sombras de palmeira"
-              width={1200}
-              height={1500}
+              src={heroAsset.url}
+              alt="Letreiro Mosantt em painel de madeira clara com palmeiras à frente"
+              width={1280}
+              height={1600}
               className="w-full aspect-[4/5] object-cover shadow-2xl shadow-charcoal/10"
             />
           </div>
@@ -91,96 +106,170 @@ function Index() {
             Um novo conceito em Rio Branco
           </h2>
           <p className="text-lg font-light leading-relaxed opacity-80 max-w-2xl mx-auto">
-            O Edifício Mosantt foi concebido para abrigar os melhores especialistas do Acre. Um ambiente que transcende o hospitalar, oferecendo uma experiência de galeria de arte aplicada ao cuidado pessoal.
+            O Edifício Mosantt foi concebido para abrigar os melhores especialistas
+            do Acre. Um ambiente que transcende o hospitalar, oferecendo uma
+            experiência de galeria de arte aplicada ao cuidado pessoal.
           </p>
         </div>
       </section>
 
-      <section id="clinicas" className="py-24 px-6 md:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-end mb-16">
-            <div>
-              <span className="text-[10px] uppercase tracking-[0.3em] text-oak font-semibold mb-4 block">
-                Nossos Residentes
-              </span>
-              <h2 className="font-serif text-4xl italic">Clínicas & Consultórios</h2>
+      <section id="tour" className="py-24 px-6 md:px-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-12 gap-10 items-center">
+          <div className="col-span-12 lg:col-span-5">
+            <span className="text-[10px] uppercase tracking-[0.3em] text-oak font-semibold mb-4 block">
+              Conheça a Galeria
+            </span>
+            <h2 className="font-serif text-4xl md:text-5xl leading-[1.05] mb-6">
+              Uma visita <span className="italic">guiada</span> ao espaço.
+            </h2>
+            <p className="text-base font-light leading-relaxed text-charcoal/70 max-w-md">
+              Percorra o edifício e entenda como a Mosantt funciona: salas
+              independentes, áreas comuns compartilhadas, recepção, estacionamento
+              privativo e uma atmosfera pensada para acolher pacientes e profissionais.
+            </p>
+            <div className="mt-8 flex flex-col gap-2 text-sm font-light text-charcoal/70">
+              <span>· 5 salas privativas</span>
+              <span>· Recepção e áreas de convivência</span>
+              <span>· Estacionamento e segurança</span>
+              <span>· Localização estratégica no Jardim de Alah</span>
             </div>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {clinics.map((c) => (
-              <div key={c.suite} className="group">
-                <div className="overflow-hidden mb-6">
-                  <img
-                    src={c.image}
-                    alt={c.name}
-                    width={800}
-                    height={1000}
-                    loading="lazy"
-                    className="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                  />
-                </div>
-                <span className="text-[10px] font-medium uppercase tracking-widest text-charcoal/40">
-                  {c.suite}
-                </span>
-                <h3 className="font-serif text-xl mt-2">{c.name}</h3>
-                <p className="text-sm text-charcoal/60 mt-2 font-light">{c.description}</p>
-              </div>
-            ))}
+          <div className="col-span-12 lg:col-span-7">
+            <video
+              src={tourAsset.url}
+              controls
+              playsInline
+              preload="metadata"
+              className="w-full aspect-[9/16] md:aspect-[4/5] object-cover bg-charcoal/5 shadow-2xl shadow-charcoal/10"
+            >
+              Seu navegador não suporta vídeo HTML5.
+            </video>
           </div>
         </div>
       </section>
 
-      <footer id="localizacao" className="bg-charcoal text-sand py-20 px-6 md:px-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
-          <div id="contato">
-            <span className="text-[10px] uppercase tracking-[0.3em] text-oak font-semibold mb-6 block">
-              Onde Estamos
-            </span>
-            <h3 className="font-serif text-3xl mb-6">
-              Estrada Dias Martins, nº 1303
-              <br />
-              Jardim de Alah, Rio Branco — AC
-            </h3>
-            <p className="text-sand/50 font-light mb-12 max-w-md">
-              Um ponto estratégico de fácil acesso, com estacionamento privativo e segurança.
-            </p>
-            <div className="flex flex-col gap-4">
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=Estrada+Dias+Martins+1303+Jardim+de+Alah+Rio+Branco"
-                target="_blank"
-                rel="noreferrer"
-                className="text-sm hover:text-oak transition-colors underline underline-offset-8 decoration-oak/30 w-fit"
-              >
-                Ver no Google Maps
-              </a>
-              <a
-                href="https://instagram.com/mosantt"
-                target="_blank"
-                rel="noreferrer"
-                className="text-sm hover:text-oak transition-colors underline underline-offset-8 decoration-oak/30 w-fit"
-              >
-                Instagram @mosantt
-              </a>
-              <a
-                href="https://wa.me/"
-                target="_blank"
-                rel="noreferrer"
-                className="text-sm hover:text-oak transition-colors underline underline-offset-8 decoration-oak/30 w-fit"
-              >
-                WhatsApp
-              </a>
+      <section id="salas" className="py-24 px-6 md:px-8 bg-oak/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-wrap justify-between items-end gap-6 mb-16">
+            <div>
+              <span className="text-[10px] uppercase tracking-[0.3em] text-oak font-semibold mb-4 block">
+                Disponibilidade
+              </span>
+              <h2 className="font-serif text-4xl md:text-5xl">
+                Cinco salas, <span className="italic">um só endereço.</span>
+              </h2>
             </div>
+            <p className="text-sm font-light text-charcoal/60 max-w-xs">
+              Salas prontas para profissionais de saúde e estética. Consulte
+              disponibilidade e condições de locação.
+            </p>
           </div>
-          <div className="relative">
-            <img
-              src={buildingDetail}
-              alt="Detalhes arquitetônicos do Edifício Mosantt"
-              width={1200}
-              height={800}
-              loading="lazy"
-              className="w-full h-full min-h-[300px] object-cover"
-            />
+
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-charcoal/10 border border-charcoal/10">
+            {salas.map((sala) => {
+              const ocupada = sala.status === "Ocupada";
+              return (
+                <li
+                  key={sala.numero}
+                  className="bg-sand p-8 flex flex-col justify-between min-h-[240px]"
+                >
+                  <div className="flex items-start justify-between">
+                    <span className="font-serif text-5xl leading-none">{sala.numero}</span>
+                    <span
+                      className={
+                        "inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-medium " +
+                        (ocupada ? "text-charcoal/60" : "text-leaf")
+                      }
+                    >
+                      <span
+                        className={
+                          "size-1.5 rounded-full " +
+                          (ocupada ? "bg-charcoal/40" : "bg-leaf")
+                        }
+                      />
+                      {sala.status}
+                    </span>
+                  </div>
+                  <div className="mt-8">
+                    {ocupada ? (
+                      <>
+                        <p className="text-[10px] uppercase tracking-widest text-oak font-semibold mb-2">
+                          {sala.especialidade}
+                        </p>
+                        <h3 className="font-serif text-2xl leading-tight">
+                          {sala.ocupante}
+                        </h3>
+                      </>
+                    ) : (
+                      <h3 className="font-serif text-2xl italic leading-tight">
+                        Sala disponível
+                      </h3>
+                    )}
+                    <p className="text-sm text-charcoal/60 mt-2 font-light">
+                      {sala.nota}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
+            <li className="bg-charcoal text-sand p-8 flex flex-col justify-between min-h-[240px]">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-oak font-semibold">
+                Interessado?
+              </span>
+              <div>
+                <h3 className="font-serif text-2xl leading-tight mb-4">
+                  Fale sobre a locação de uma sala.
+                </h3>
+                <a
+                  href="https://wa.me/"
+                  className="text-xs uppercase tracking-widest underline underline-offset-8 decoration-oak/50 hover:text-oak transition-colors"
+                >
+                  Falar no WhatsApp →
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <footer id="localizacao" className="bg-charcoal text-sand py-20 px-6 md:px-8">
+        <div className="max-w-7xl mx-auto">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-oak font-semibold mb-6 block">
+            Onde Estamos
+          </span>
+          <h3 className="font-serif text-3xl md:text-4xl mb-6 max-w-2xl">
+            Estrada Dias Martins, nº 1303
+            <br />
+            Jardim de Alah, Rio Branco — AC
+          </h3>
+          <p className="text-sand/50 font-light mb-12 max-w-md">
+            Um ponto estratégico de fácil acesso, com estacionamento privativo e segurança.
+          </p>
+          <div className="flex flex-wrap gap-x-10 gap-y-4">
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Estrada+Dias+Martins+1303+Jardim+de+Alah+Rio+Branco"
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm hover:text-oak transition-colors underline underline-offset-8 decoration-oak/30 w-fit"
+            >
+              Ver no Google Maps
+            </a>
+            <a
+              href="https://instagram.com/mosantt"
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm hover:text-oak transition-colors underline underline-offset-8 decoration-oak/30 w-fit"
+            >
+              Instagram @mosantt
+            </a>
+            <a
+              href="https://wa.me/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm hover:text-oak transition-colors underline underline-offset-8 decoration-oak/30 w-fit"
+            >
+              WhatsApp
+            </a>
           </div>
         </div>
         <div className="max-w-7xl mx-auto mt-20 pt-10 border-t border-sand/10 flex flex-col md:flex-row justify-between items-center gap-6">
