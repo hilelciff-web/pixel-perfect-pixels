@@ -92,7 +92,7 @@ function Index() {
           </div>
           <div className="col-span-12 lg:col-span-7">
             <img
-              src={heroAsset.url}
+              src={heroUrl}
               alt="Letreiro Mosantt em painel de madeira clara com palmeiras à frente"
               width={1280}
               height={1600}
@@ -141,7 +141,7 @@ function Index() {
           </div>
           <div className="col-span-12 lg:col-span-7">
             <video
-              src={tourAsset.url}
+              src={tourUrl}
               controls
               playsInline
               preload="metadata"
