@@ -12,6 +12,8 @@ type Sala = {
   ocupante?: string;
   especialidade?: string;
   nota?: string;
+  instagram?: string;
+  site?: string;
 };
 
 const salas: Sala[] = [
@@ -19,8 +21,10 @@ const salas: Sala[] = [
     numero: "01",
     status: "Ocupada",
     ocupante: "Dr. Alisson Mota Rabelo",
-    especialidade: "Consultório particular",
-    nota: "Atendimento por agendamento.",
+    especialidade: "Ortodontia · Invisalign®",
+    nota: "Especialista em Ortodontia, N°1 em alinhadores Invisalign® no Acre. Implantes e lentes de porcelana.",
+    instagram: "https://instagram.com/dralisonmota",
+    site: "https://dr-alison-prototipo.web.app/#inicio",
   },
   {
     numero: "02",
@@ -208,6 +212,30 @@ function Index() {
                     <p className="text-sm text-charcoal/60 mt-2 font-light">
                       {sala.nota}
                     </p>
+                    {ocupada && (sala.instagram || sala.site) && (
+                      <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-[10px] uppercase tracking-[0.2em]">
+                        {sala.instagram && (
+                          <a
+                            href={sala.instagram}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-charcoal/70 hover:text-oak transition-colors underline underline-offset-4 decoration-oak/40"
+                          >
+                            Instagram
+                          </a>
+                        )}
+                        {sala.site && (
+                          <a
+                            href={sala.site}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-charcoal/70 hover:text-oak transition-colors underline underline-offset-4 decoration-oak/40"
+                          >
+                            Site
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </li>
               );
