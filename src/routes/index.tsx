@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import heroAsset from "@/assets/mosantt-hero.jpg.asset.json";
-import tourAsset from "@/assets/mosantt-tour.mp4.asset.json";
+
+const heroUrl = "/assets/mosantt-hero.jpg";
+const tourUrl = "/assets/mosantt-tour.mp4";
 
 export const Route = createFileRoute("/")({
   component: Index,
