@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import heroAsset from "@/assets/mosantt-hero.jpg.asset.json";
-import tourAsset from "@/assets/mosantt-tour.mp4.asset.json";
+
+const heroUrl = "/assets/mosantt-hero.jpg";
+const tourUrl = "/assets/mosantt-tour.mp4";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -91,7 +92,7 @@ function Index() {
           </div>
           <div className="col-span-12 lg:col-span-7">
             <img
-              src={heroAsset.url}
+              src={heroUrl}
               alt="Letreiro Mosantt em painel de madeira clara com palmeiras à frente"
               width={1280}
               height={1600}
@@ -140,7 +141,7 @@ function Index() {
           </div>
           <div className="col-span-12 lg:col-span-7">
             <video
-              src={tourAsset.url}
+              src={tourUrl}
               controls
               playsInline
               preload="metadata"
