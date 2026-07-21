@@ -52,52 +52,76 @@ const salas: Sala[] = [
 function Index() {
   return (
     <div className="bg-sand text-charcoal selection:bg-oak/30">
-      <nav className="flex justify-between items-center px-6 md:px-8 py-6 border-b border-charcoal/5">
-        <a href="#top" className="text-2xl font-serif tracking-tight">
-          <span className="font-medium">M</span>osantt
-        </a>
-        <div className="hidden md:flex gap-8 text-xs uppercase tracking-[0.2em] font-light">
-          <a href="#espaco" className="hover:text-oak transition-colors">O Espaço</a>
-          <a href="#tour" className="hover:text-oak transition-colors">Tour</a>
-          <a href="#salas" className="hover:text-oak transition-colors">Salas</a>
-          <a href="#localizacao" className="hover:text-oak transition-colors">Localização</a>
-        </div>
-      </nav>
+      <section
+        id="top"
+        className="relative min-h-screen w-full overflow-hidden text-sand"
+      >
+        <img
+          src={heroUrl}
+          alt="Letreiro Mosantt em painel de madeira clara com palmeiras à frente"
+          className="absolute inset-0 w-full h-full object-cover object-center will-change-transform animate-hero-zoom"
+        />
+        {/* overlays sutis para legibilidade sem apagar a madeira */}
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-b from-charcoal/50 via-charcoal/20 to-charcoal/70"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-r from-charcoal/40 via-transparent to-transparent"
+        />
 
-      <section id="top" className="relative px-6 md:px-8 pt-12 pb-24">
-        <div className="max-w-7xl mx-auto grid grid-cols-12 gap-8 items-end">
-          <div className="col-span-12 lg:col-span-5 mb-12 lg:mb-0">
-            <h1 className="font-serif text-6xl md:text-8xl leading-[0.9] mb-8">
-              Saúde em sua <br />
-              <span className="italic">melhor forma.</span>
-            </h1>
-            <p className="text-lg font-light leading-relaxed max-w-md text-charcoal/80">
-              Uma galeria de saúde e estética em Rio Branco. Um ecossistema de
-              clínicas independentes unidas pelo design, bem-estar e excelência técnica.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <a
-                href="https://wa.me/"
-                className="px-8 py-4 bg-charcoal text-sand text-xs uppercase tracking-widest hover:bg-oak transition-colors"
-              >
-                Agendar Visita
-              </a>
-              <a
-                href="https://instagram.com/mosantt"
-                className="px-8 py-4 border border-charcoal/20 text-xs uppercase tracking-widest hover:border-charcoal transition-colors"
-              >
-                @mosantt
-              </a>
+        {/* Nav sobre a imagem */}
+        <nav className="relative z-10 flex justify-between items-center px-6 md:px-10 py-6">
+          <a href="#top" className="text-2xl font-serif tracking-tight text-sand">
+            <span className="font-medium">M</span>osantt
+          </a>
+          <div className="hidden md:flex gap-8 text-[11px] uppercase tracking-[0.25em] font-light text-sand/90">
+            <a href="#espaco" className="hover:text-oak transition-colors">O Espaço</a>
+            <a href="#tour" className="hover:text-oak transition-colors">Tour</a>
+            <a href="#salas" className="hover:text-oak transition-colors">Salas</a>
+            <a href="#localizacao" className="hover:text-oak transition-colors">Localização</a>
+          </div>
+        </nav>
+
+        {/* Conteúdo do hero — alinhado abaixo do letreiro na foto */}
+        <div className="relative z-10 px-6 md:px-10 pb-16 md:pb-20 pt-24 md:pt-40 min-h-[calc(100vh-96px)] flex flex-col justify-end">
+          <div className="max-w-7xl mx-auto w-full grid grid-cols-12 gap-6 items-end">
+            <div className="col-span-12 lg:col-span-8 animate-hero-fade">
+              <span className="text-[10px] md:text-[11px] uppercase tracking-[0.35em] text-sand/70 mb-6 block">
+                Galeria de Saúde · Rio Branco — AC
+              </span>
+              <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-sand drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)]">
+                Saúde em sua <br />
+                <span className="italic">melhor forma.</span>
+              </h1>
+            </div>
+            <div className="col-span-12 lg:col-span-4 lg:pl-8 lg:border-l lg:border-sand/25 animate-hero-fade [animation-delay:200ms]">
+              <p className="text-base md:text-lg font-light leading-relaxed text-sand/85 max-w-sm">
+                Um ecossistema de clínicas independentes unidas pelo design,
+                bem-estar e excelência técnica.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href="https://wa.me/"
+                  className="px-7 py-3.5 bg-sand text-charcoal text-[11px] uppercase tracking-[0.25em] hover:bg-oak hover:text-sand transition-colors"
+                >
+                  Agendar Visita
+                </a>
+                <a
+                  href="https://instagram.com/mosantt"
+                  className="px-7 py-3.5 border border-sand/40 text-sand text-[11px] uppercase tracking-[0.25em] hover:border-sand hover:bg-sand/10 transition-colors"
+                >
+                  @mosantt
+                </a>
+              </div>
             </div>
           </div>
-          <div className="col-span-12 lg:col-span-7">
-            <img
-              src={heroUrl}
-              alt="Letreiro Mosantt em painel de madeira clara com palmeiras à frente"
-              width={1280}
-              height={1600}
-              className="w-full aspect-[4/5] object-cover shadow-2xl shadow-charcoal/10"
-            />
+
+          {/* Scroll indicator */}
+          <div className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-3 text-sand/60">
+            <span className="text-[10px] uppercase tracking-[0.35em]">Role</span>
+            <span className="w-px h-10 bg-sand/40 animate-scroll-hint origin-top" />
           </div>
         </div>
       </section>
