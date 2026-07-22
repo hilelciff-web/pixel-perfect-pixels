@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 
 const heroUrl = "/assets/mosantt-hero.jpg";
 const tourUrl = "/assets/mosantt-tour.mp4";
@@ -56,10 +57,16 @@ function Index() {
         id="top"
         className="relative min-h-screen w-full overflow-hidden text-sand"
       >
-        <img
+        <motion.img
           src={heroUrl}
           alt="Letreiro Mosantt em painel de madeira clara com palmeiras à frente"
-          className="absolute inset-0 w-full h-full object-cover object-center will-change-transform animate-hero-zoom"
+          className="absolute inset-0 w-full h-full object-cover object-center will-change-transform"
+          initial={{ clipPath: "inset(0 0 100% 0)", scale: 1.12 }}
+          animate={{ clipPath: "inset(0 0 0% 0)", scale: 1 }}
+          transition={{
+            clipPath: { duration: 1.6, ease: [0.22, 1, 0.36, 1] },
+            scale: { duration: 2.4, ease: [0.22, 1, 0.36, 1] },
+          }}
         />
         {/* overlays sutis para legibilidade sem apagar a madeira */}
         <div
@@ -72,7 +79,12 @@ function Index() {
         />
 
         {/* Nav sobre a imagem */}
-        <nav className="relative z-10 flex justify-between items-center px-6 md:px-10 py-6">
+        <motion.nav
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="relative z-10 flex justify-between items-center px-6 md:px-10 py-6"
+        >
           <a href="#top" className="text-2xl font-serif tracking-tight text-sand">
             <span className="font-medium">M</span>osantt
           </a>
@@ -82,21 +94,58 @@ function Index() {
             <a href="#salas" className="hover:text-oak transition-colors">Salas</a>
             <a href="#localizacao" className="hover:text-oak transition-colors">Localização</a>
           </div>
-        </nav>
+        </motion.nav>
 
         {/* Conteúdo do hero — alinhado abaixo do letreiro na foto */}
         <div className="relative z-10 px-6 md:px-10 pb-16 md:pb-20 pt-24 md:pt-40 min-h-[calc(100vh-96px)] flex flex-col justify-end">
-          <div className="max-w-7xl mx-auto w-full grid grid-cols-12 gap-6 items-end">
-            <div className="col-span-12 lg:col-span-8 animate-hero-fade">
-              <span className="text-[10px] md:text-[11px] uppercase tracking-[0.35em] text-sand/70 mb-6 block">
+          <motion.div
+            className="max-w-7xl mx-auto w-full grid grid-cols-12 gap-6 items-end"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.18, delayChildren: 0.9 },
+              },
+            }}
+          >
+            <motion.div
+              className="col-span-12 lg:col-span-8"
+              variants={{
+                hidden: { y: 24, opacity: 0 },
+                visible: {
+                  y: 0,
+                  opacity: 1,
+                  transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
+                },
+              }}
+            >
+              <motion.span
+                variants={{
+                  hidden: { y: 12, opacity: 0 },
+                  visible: { y: 0, opacity: 1, transition: { duration: 0.6 } },
+                }}
+                className="text-[10px] md:text-[11px] uppercase tracking-[0.35em] text-sand/70 mb-6 block"
+              >
                 Galeria de Saúde · Rio Branco — AC
-              </span>
+              </motion.span>
               <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-sand drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)]">
                 Saúde em sua <br />
                 <span className="italic">melhor forma.</span>
               </h1>
-            </div>
-            <div className="col-span-12 lg:col-span-4 lg:pl-8 lg:border-l lg:border-sand/25 animate-hero-fade [animation-delay:200ms]">
+            </motion.div>
+            <motion.div
+              className="col-span-12 lg:col-span-4 lg:pl-8 lg:border-l lg:border-sand/25"
+              variants={{
+                hidden: { y: 24, opacity: 0 },
+                visible: {
+                  y: 0,
+                  opacity: 1,
+                  transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
+                },
+              }}
+            >
               <p className="text-base md:text-lg font-light leading-relaxed text-sand/85 max-w-sm">
                 Um ecossistema de clínicas independentes unidas pelo design,
                 bem-estar e excelência técnica.
@@ -115,14 +164,19 @@ function Index() {
                   @mosantt
                 </a>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Scroll indicator */}
-          <div className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-3 text-sand/60">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2, duration: 0.8 }}
+            className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-3 text-sand/60"
+          >
             <span className="text-[10px] uppercase tracking-[0.35em]">Role</span>
             <span className="w-px h-10 bg-sand/40 animate-scroll-hint origin-top" />
-          </div>
+          </motion.div>
         </div>
       </section>
 
