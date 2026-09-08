@@ -21,32 +21,32 @@ type Sala = {
 const salas: Sala[] = [
   {
     numero: "01",
+    status: "Disponível",
+    nota: "Sala pronta para profissional de saúde ou estética.",
+  },
+  {
+    numero: "02",
+    status: "Disponível",
+    nota: "Ideal para consultório clínico ou terapias.",
+  },
+  {
+    numero: "03",
+    status: "Disponível",
+    nota: "Ambiente iluminado, configuração flexível.",
+  },
+  {
+    numero: "04",
+    status: "Disponível",
+    nota: "Espaço reservado para nova clínica ou estúdio.",
+  },
+  {
+    numero: "05",
     status: "Ocupada",
     ocupante: "Dr. Alisson Mota Rabelo",
     especialidade: "Ortodontia · Invisalign®",
     nota: "Especialista em Ortodontia, N°1 em alinhadores Invisalign® no Acre. Implantes e lentes de porcelana.",
     instagram: "https://instagram.com/dralisonmota",
     site: "https://dr-alison-prototipo.web.app/#inicio",
-  },
-  {
-    numero: "02",
-    status: "Disponível",
-    nota: "Sala pronta para profissional de saúde ou estética.",
-  },
-  {
-    numero: "03",
-    status: "Disponível",
-    nota: "Ideal para consultório clínico ou terapias.",
-  },
-  {
-    numero: "04",
-    status: "Disponível",
-    nota: "Ambiente iluminado, configuração flexível.",
-  },
-  {
-    numero: "05",
-    status: "Disponível",
-    nota: "Espaço reservado para nova clínica ou estúdio.",
   },
 ];
 
