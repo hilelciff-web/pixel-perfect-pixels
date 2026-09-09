@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import logoAsset from "@/assets/mosantt-logo.png.asset.json";
 
 const heroUrl = "/assets/mosantt-hero.jpg";
 const tourUrl = "/assets/mosantt-tour.mp4";
@@ -85,8 +86,12 @@ function Index() {
           transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="relative z-10 flex justify-between items-center px-6 md:px-10 py-6"
         >
-          <a href="#top" className="text-2xl font-serif tracking-tight text-sand">
-            <span className="font-medium">M</span>osantt
+          <a href="#top" className="block">
+            <img
+              src={logoAsset.url}
+              alt="Mosantt"
+              className="h-10 w-auto brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
+            />
           </a>
           <div className="hidden md:flex gap-8 text-[11px] uppercase tracking-[0.25em] font-light text-sand/90">
             <a href="#espaco" className="hover:text-oak transition-colors">O Espaço</a>
