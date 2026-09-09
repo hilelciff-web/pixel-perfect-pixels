@@ -385,9 +385,13 @@ function Index() {
           </div>
         </div>
         <div className="max-w-7xl mx-auto mt-20 pt-10 border-t border-sand/10 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-2xl font-serif tracking-tight">
-            <span className="font-medium">M</span>osantt
-          </div>
+          <a href="#top" className="block">
+            <img
+              src={logoAsset.url}
+              alt="Mosantt"
+              className="h-8 w-auto brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
+            />
+          </a>
           <p className="text-[10px] uppercase tracking-widest text-sand/30">
             © {new Date().getFullYear()} Mosantt — Saúde e Estética.
           </p>
