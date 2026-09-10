@@ -1,65 +1,55 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import logoAsset from "@/assets/mosantt-logo.png.asset.json";
+import { getSiteContent, type Sala, type SiteSettings } from "@/lib/site.functions";
 
-const heroUrl = "/assets/mosantt-hero.jpg";
-const tourUrl = "/assets/mosantt-tour.mp4";
-
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-type Sala = {
-  numero: string;
-  status: "Ocupada" | "Disponível";
-  ocupante?: string;
-  especialidade?: string;
-  nota?: string;
-  instagram?: string;
-  site?: string;
+const fallback: Omit<SiteSettings, "id" | "updated_at"> = {
+  hero_eyebrow: "Galeria de Saúde · Rio Branco — AC",
+  hero_title_line1: "Saúde em sua",
+  hero_title_line2: "melhor forma.",
+  hero_subtitle:
+    "Um ecossistema de clínicas independentes unidas pelo design, bem-estar e excelência técnica.",
+  hero_image_url: "/assets/mosantt-hero.jpg",
+  about_title: "Um novo conceito em Rio Branco",
+  about_text:
+    "O Edifício Mosantt foi concebido para abrigar os melhores especialistas do Acre. Um ambiente que transcende o hospitalar, oferecendo uma experiência de galeria de arte aplicada ao cuidado pessoal.",
+  tour_title: "Uma visita guiada ao espaço.",
+  tour_text:
+    "Percorra o edifício e entenda como a Mosantt funciona: salas independentes, áreas comuns compartilhadas, recepção, estacionamento privativo e uma atmosfera pensada para acolher pacientes e profissionais.",
+  tour_video_url: "/assets/mosantt-tour.mp4",
+  whatsapp_url: "https://wa.me/",
+  instagram_url: "https://instagram.com/mosantt",
+  address_line1: "Estrada Dias Martins, nº 1303",
+  address_line2: "Jardim de Alah, Rio Branco — AC",
+  maps_url:
+    "https://www.google.com/maps/search/?api=1&query=Estrada+Dias+Martins+1303+Jardim+de+Alah+Rio+Branco",
 };
 
-const salas: Sala[] = [
-  {
-    numero: "01",
-    status: "Disponível",
-    nota: "Sala pronta para profissional de saúde ou estética.",
-  },
-  {
-    numero: "02",
-    status: "Disponível",
-    nota: "Ideal para consultório clínico ou terapias.",
-  },
-  {
-    numero: "03",
-    status: "Disponível",
-    nota: "Ambiente iluminado, configuração flexível.",
-  },
-  {
-    numero: "04",
-    status: "Disponível",
-    nota: "Espaço reservado para nova clínica ou estúdio.",
-  },
-  {
-    numero: "05",
-    status: "Ocupada",
-    ocupante: "Dr. Alisson Mota Rabelo",
-    especialidade: "Ortodontia · Invisalign®",
-    nota: "Especialista em Ortodontia, N°1 em alinhadores Invisalign® no Acre. Implantes e lentes de porcelana.",
-    instagram: "https://instagram.com/dralisonmota",
-    site: "https://dr-alison-prototipo.web.app/#inicio",
-  },
-];
+export const Route = createFileRoute("/")({
+  loader: () => getSiteContent(),
+  component: Index,
+  errorComponent: () => (
+    <div className="min-h-screen grid place-items-center bg-sand text-charcoal px-6 text-center">
+      <p className="font-serif text-2xl">Não foi possível carregar o conteúdo. Recarregue a página.</p>
+    </div>
+  ),
+  notFoundComponent: () => (
+    <div className="min-h-screen grid place-items-center bg-sand text-charcoal">
+      <p className="font-serif text-2xl">Página não encontrada</p>
+    </div>
+  ),
+});
 
 function Index() {
+  const data = Route.useLoaderData();
+  const s = { ...fallback, ...(data.settings ?? {}) };
+  const salas: Sala[] = data.salas;
+
   return (
     <div className="bg-sand text-charcoal selection:bg-oak/30">
-      <section
-        id="top"
-        className="relative min-h-screen w-full overflow-hidden text-sand"
-      >
+      <section id="top" className="relative min-h-screen w-full overflow-hidden text-sand">
         <motion.img
-          src={heroUrl}
+          src={s.hero_image_url}
           alt="Letreiro Mosantt em painel de madeira clara com palmeiras à frente"
           className="absolute inset-0 w-full h-full object-cover object-center will-change-transform"
           initial={{ clipPath: "inset(0 0 100% 0)", scale: 1.12 }}
@@ -69,7 +59,6 @@ function Index() {
             scale: { duration: 2.4, ease: [0.22, 1, 0.36, 1] },
           }}
         />
-        {/* overlays sutis para legibilidade sem apagar a madeira */}
         <div
           aria-hidden
           className="absolute inset-0 bg-gradient-to-b from-charcoal/50 via-charcoal/20 to-charcoal/70"
@@ -79,7 +68,6 @@ function Index() {
           className="absolute inset-0 bg-gradient-to-r from-charcoal/40 via-transparent to-transparent"
         />
 
-        {/* Nav sobre a imagem */}
         <motion.nav
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -101,7 +89,6 @@ function Index() {
           </div>
         </motion.nav>
 
-        {/* Conteúdo do hero — alinhado abaixo do letreiro na foto */}
         <div className="relative z-10 px-6 md:px-10 pb-16 md:pb-20 pt-24 md:pt-40 min-h-[calc(100vh-96px)] flex flex-col justify-end">
           <motion.div
             className="max-w-7xl mx-auto w-full grid grid-cols-12 gap-6 items-end"
@@ -109,21 +96,14 @@ function Index() {
             animate="visible"
             variants={{
               hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: { staggerChildren: 0.18, delayChildren: 0.9 },
-              },
+              visible: { opacity: 1, transition: { staggerChildren: 0.18, delayChildren: 0.9 } },
             }}
           >
             <motion.div
               className="col-span-12 lg:col-span-8"
               variants={{
                 hidden: { y: 24, opacity: 0 },
-                visible: {
-                  y: 0,
-                  opacity: 1,
-                  transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
-                },
+                visible: { y: 0, opacity: 1, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
               }}
             >
               <motion.span
@@ -133,37 +113,32 @@ function Index() {
                 }}
                 className="text-[10px] md:text-[11px] uppercase tracking-[0.35em] text-sand/70 mb-6 block"
               >
-                Galeria de Saúde · Rio Branco — AC
+                {s.hero_eyebrow}
               </motion.span>
               <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-sand drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)]">
-                Saúde em sua <br />
-                <span className="italic">melhor forma.</span>
+                {s.hero_title_line1} <br />
+                <span className="italic">{s.hero_title_line2}</span>
               </h1>
             </motion.div>
             <motion.div
               className="col-span-12 lg:col-span-4 lg:pl-8 lg:border-l lg:border-sand/25"
               variants={{
                 hidden: { y: 24, opacity: 0 },
-                visible: {
-                  y: 0,
-                  opacity: 1,
-                  transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
-                },
+                visible: { y: 0, opacity: 1, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
               }}
             >
               <p className="text-base md:text-lg font-light leading-relaxed text-sand/85 max-w-sm">
-                Um ecossistema de clínicas independentes unidas pelo design,
-                bem-estar e excelência técnica.
+                {s.hero_subtitle}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
-                  href="https://wa.me/"
+                  href={s.whatsapp_url}
                   className="px-7 py-3.5 bg-sand text-charcoal text-[11px] uppercase tracking-[0.25em] hover:bg-oak hover:text-sand transition-colors"
                 >
                   Agendar Visita
                 </a>
                 <a
-                  href="https://instagram.com/mosantt"
+                  href={s.instagram_url}
                   className="px-7 py-3.5 border border-sand/40 text-sand text-[11px] uppercase tracking-[0.25em] hover:border-sand hover:bg-sand/10 transition-colors"
                 >
                   @mosantt
@@ -172,7 +147,6 @@ function Index() {
             </motion.div>
           </motion.div>
 
-          {/* Scroll indicator */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -190,13 +164,9 @@ function Index() {
           <div className="w-12 h-12 border border-sand/30 mx-auto mb-8 grid place-items-center">
             <span className="text-xs font-serif italic">tt</span>
           </div>
-          <h2 className="font-serif text-3xl md:text-4xl mb-6">
-            Um novo conceito em Rio Branco
-          </h2>
+          <h2 className="font-serif text-3xl md:text-4xl mb-6">{s.about_title}</h2>
           <p className="text-lg font-light leading-relaxed opacity-80 max-w-2xl mx-auto">
-            O Edifício Mosantt foi concebido para abrigar os melhores especialistas
-            do Acre. Um ambiente que transcende o hospitalar, oferecendo uma
-            experiência de galeria de arte aplicada ao cuidado pessoal.
+            {s.about_text}
           </p>
         </div>
       </section>
@@ -207,16 +177,12 @@ function Index() {
             <span className="text-[10px] uppercase tracking-[0.3em] text-oak font-semibold mb-4 block">
               Conheça a Galeria
             </span>
-            <h2 className="font-serif text-4xl md:text-5xl leading-[1.05] mb-6">
-              Uma visita <span className="italic">guiada</span> ao espaço.
-            </h2>
+            <h2 className="font-serif text-4xl md:text-5xl leading-[1.05] mb-6">{s.tour_title}</h2>
             <p className="text-base font-light leading-relaxed text-charcoal/70 max-w-md">
-              Percorra o edifício e entenda como a Mosantt funciona: salas
-              independentes, áreas comuns compartilhadas, recepção, estacionamento
-              privativo e uma atmosfera pensada para acolher pacientes e profissionais.
+              {s.tour_text}
             </p>
             <div className="mt-8 flex flex-col gap-2 text-sm font-light text-charcoal/70">
-              <span>· 5 salas privativas</span>
+              <span>· {salas.length || 5} salas privativas</span>
               <span>· Recepção e áreas de convivência</span>
               <span>· Estacionamento e segurança</span>
               <span>· Localização estratégica no Jardim de Alah</span>
@@ -224,7 +190,7 @@ function Index() {
           </div>
           <div className="col-span-12 lg:col-span-7">
             <video
-              src={tourUrl}
+              src={s.tour_video_url}
               controls
               playsInline
               preload="metadata"
@@ -248,8 +214,8 @@ function Index() {
               </h2>
             </div>
             <p className="text-sm font-light text-charcoal/60 max-w-xs">
-              Salas prontas para profissionais de saúde e estética. Consulte
-              disponibilidade e condições de locação.
+              Salas prontas para profissionais de saúde e estética. Consulte disponibilidade e
+              condições de locação.
             </p>
           </div>
 
@@ -257,10 +223,7 @@ function Index() {
             {salas.map((sala) => {
               const ocupada = sala.status === "Ocupada";
               return (
-                <li
-                  key={sala.numero}
-                  className="bg-sand p-8 flex flex-col justify-between min-h-[240px]"
-                >
+                <li key={sala.id} className="bg-sand p-8 flex flex-col justify-between min-h-[240px]">
                   <div className="flex items-start justify-between">
                     <span className="font-serif text-5xl leading-none">{sala.numero}</span>
                     <span
@@ -270,10 +233,7 @@ function Index() {
                       }
                     >
                       <span
-                        className={
-                          "size-1.5 rounded-full " +
-                          (ocupada ? "bg-charcoal/40" : "bg-leaf")
-                        }
+                        className={"size-1.5 rounded-full " + (ocupada ? "bg-charcoal/40" : "bg-leaf")}
                       />
                       {sala.status}
                     </span>
@@ -284,19 +244,13 @@ function Index() {
                         <p className="text-[10px] uppercase tracking-widest text-oak font-semibold mb-2">
                           {sala.especialidade}
                         </p>
-                        <h3 className="font-serif text-2xl leading-tight">
-                          {sala.ocupante}
-                        </h3>
+                        <h3 className="font-serif text-2xl leading-tight">{sala.ocupante}</h3>
                       </>
                     ) : (
-                      <h3 className="font-serif text-2xl italic leading-tight">
-                        Sala disponível
-                      </h3>
+                      <h3 className="font-serif text-2xl italic leading-tight">Sala disponível</h3>
                     )}
-                    <p className="text-sm text-charcoal/60 mt-2 font-light">
-                      {sala.nota}
-                    </p>
-                    {ocupada && (sala.instagram || sala.site) && (
+                    <p className="text-sm text-charcoal/60 mt-2 font-light">{sala.nota}</p>
+                    {ocupada && (sala.instagram || sala.site || sala.whatsapp) && (
                       <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-[10px] uppercase tracking-[0.2em]">
                         {sala.instagram && (
                           <a
@@ -318,6 +272,16 @@ function Index() {
                             Site
                           </a>
                         )}
+                        {sala.whatsapp && (
+                          <a
+                            href={sala.whatsapp}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-charcoal/70 hover:text-oak transition-colors underline underline-offset-4 decoration-oak/40"
+                          >
+                            WhatsApp
+                          </a>
+                        )}
                       </div>
                     )}
                   </div>
@@ -333,7 +297,7 @@ function Index() {
                   Fale sobre a locação de uma sala.
                 </h3>
                 <a
-                  href="https://wa.me/"
+                  href={s.whatsapp_url}
                   className="text-xs uppercase tracking-widest underline underline-offset-8 decoration-oak/50 hover:text-oak transition-colors"
                 >
                   Falar no WhatsApp →
@@ -350,16 +314,16 @@ function Index() {
             Onde Estamos
           </span>
           <h3 className="font-serif text-3xl md:text-4xl mb-6 max-w-2xl">
-            Estrada Dias Martins, nº 1303
+            {s.address_line1}
             <br />
-            Jardim de Alah, Rio Branco — AC
+            {s.address_line2}
           </h3>
           <p className="text-sand/50 font-light mb-12 max-w-md">
             Um ponto estratégico de fácil acesso, com estacionamento privativo e segurança.
           </p>
           <div className="flex flex-wrap gap-x-10 gap-y-4">
             <a
-              href="https://www.google.com/maps/search/?api=1&query=Estrada+Dias+Martins+1303+Jardim+de+Alah+Rio+Branco"
+              href={s.maps_url}
               target="_blank"
               rel="noreferrer"
               className="text-sm hover:text-oak transition-colors underline underline-offset-8 decoration-oak/30 w-fit"
@@ -367,7 +331,7 @@ function Index() {
               Ver no Google Maps
             </a>
             <a
-              href="https://instagram.com/mosantt"
+              href={s.instagram_url}
               target="_blank"
               rel="noreferrer"
               className="text-sm hover:text-oak transition-colors underline underline-offset-8 decoration-oak/30 w-fit"
@@ -375,7 +339,7 @@ function Index() {
               Instagram @mosantt
             </a>
             <a
-              href="https://wa.me/"
+              href={s.whatsapp_url}
               target="_blank"
               rel="noreferrer"
               className="text-sm hover:text-oak transition-colors underline underline-offset-8 decoration-oak/30 w-fit"
