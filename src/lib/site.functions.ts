@@ -29,6 +29,21 @@ export const getSiteContent = createServerFn({ method: "GET" }).handler(async ()
     supabase.from("site_settings").select("*").eq("id", "main").maybeSingle(),
     supabase.from("salas").select("*").order("ordem", { ascending: true }),
   ]);
+
+  const resolve = async (value: string) => {
+    if (!value.startsWith("site-media/")) return value;
+    const path = value.slice("site-media/".length);
+    const { data } = await supabase.storage
+      .from("site-media")
+      .createSignedUrl(path, 60 * 60 * 24 * 7);
+    return data?.signedUrl ?? value;
+  };
+
+  if (settings) {
+    settings.hero_image_url = await resolve(settings.hero_image_url);
+    settings.tour_video_url = await resolve(settings.tour_video_url);
+  }
+
   return { settings: settings ?? null, salas: salas ?? [] };
 });
 
