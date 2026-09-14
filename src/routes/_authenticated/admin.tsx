@@ -70,7 +70,12 @@ function AdminPage() {
   useEffect(() => {
     if (contentQuery.data?.settings) {
       const { id: _id, updated_at: _u, ...rest } = contentQuery.data.settings;
-      setForm(rest);
+      const raw = contentQuery.data.rawMedia;
+      setForm({
+        ...rest,
+        hero_image_url: raw?.hero_image_url || rest.hero_image_url,
+        tour_video_url: raw?.tour_video_url || rest.tour_video_url,
+      });
     }
     if (contentQuery.data?.salas) setSalas(contentQuery.data.salas);
   }, [contentQuery.data]);

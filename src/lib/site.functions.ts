@@ -39,12 +39,18 @@ export const getSiteContent = createServerFn({ method: "GET" }).handler(async ()
     return data?.signedUrl ?? value;
   };
 
+  // Keep the stored values (storage paths) so the admin form never saves an
+  // expiring signed URL back into the database.
+  const rawMedia = settings
+    ? { hero_image_url: settings.hero_image_url, tour_video_url: settings.tour_video_url }
+    : { hero_image_url: "", tour_video_url: "" };
+
   if (settings) {
     settings.hero_image_url = await resolve(settings.hero_image_url);
     settings.tour_video_url = await resolve(settings.tour_video_url);
   }
 
-  return { settings: settings ?? null, salas: salas ?? [] };
+  return { settings: settings ?? null, salas: salas ?? [], rawMedia };
 });
 
 type SettingsInput = Partial<Omit<SiteSettings, "id" | "updated_at">>;
