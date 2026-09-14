@@ -90,11 +90,6 @@ function AuthPage() {
             {loading ? "Aguarde..." : mode === "login" ? "Entrar" : "Criar acesso"}
           </button>
         </form>
-        <button
-          type="button"
-          onClick={() => setMode(mode === "login" ? "login" : "login")}
-          className="hidden"
-        />
         <div className="mt-6 flex justify-between text-[10px] uppercase tracking-[0.2em] text-charcoal/50">
           <button type="button" onClick={() => setMode(mode === "login" ? "signup" : "login")} className="hover:text-oak">
             {mode === "login" ? "Criar acesso" : "Já tenho acesso"}
