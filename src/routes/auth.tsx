@@ -20,7 +20,6 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,23 +28,9 @@ function AuthPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      if (mode === "signup") {
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { emailRedirectTo: window.location.origin + "/admin" },
-        });
-        if (error) throw error;
-        if (!data.session) {
-          toast.success("Conta criada. Confirme o e-mail para entrar.");
-          return;
-        }
-        navigate({ to: "/admin" });
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        navigate({ to: "/admin" });
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      navigate({ to: "/admin" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Não foi possível entrar.");
     } finally {
@@ -58,7 +43,7 @@ function AuthPage() {
       <div className="w-full max-w-sm">
         <h1 className="font-serif text-3xl mb-2">Painel Mosantt</h1>
         <p className="text-sm text-charcoal/60 font-light mb-8">
-          {mode === "login" ? "Entre para editar o site." : "Crie o acesso do administrador."}
+          Entre para editar o site.
         </p>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <label className="text-[10px] uppercase tracking-[0.25em] text-charcoal/60">
@@ -87,13 +72,10 @@ function AuthPage() {
             disabled={loading}
             className="mt-2 bg-charcoal px-6 py-3.5 text-[11px] uppercase tracking-[0.25em] text-sand transition-colors hover:bg-oak disabled:opacity-50"
           >
-            {loading ? "Aguarde..." : mode === "login" ? "Entrar" : "Criar acesso"}
+            {loading ? "Aguarde..." : "Entrar"}
           </button>
         </form>
-        <div className="mt-6 flex justify-between text-[10px] uppercase tracking-[0.2em] text-charcoal/50">
-          <button type="button" onClick={() => setMode(mode === "login" ? "signup" : "login")} className="hover:text-oak">
-            {mode === "login" ? "Criar acesso" : "Já tenho acesso"}
-          </button>
+        <div className="mt-6 flex justify-end text-[10px] uppercase tracking-[0.2em] text-charcoal/50">
           <Link to="/" className="hover:text-oak">
             Voltar ao site
           </Link>
