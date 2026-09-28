@@ -3,6 +3,49 @@ import { motion } from "framer-motion";
 import logoAsset from "@/assets/mosantt-logo.png.asset.json";
 import { getSiteContent, type Sala, type SiteSettings } from "@/lib/site.functions";
 
+const reviews = [
+  {
+    name: "William Cavalcante",
+    when: "6 meses atrás",
+    text: "Local maravilhoso e com ótimo atendimento, além de ser muito aconchegante. Tem profissionais de excelência e, em especial, o dentista Alison, que se destaca por ser atencioso, profissional e educado. Super recomendo!",
+  },
+  {
+    name: "Sirineia Sirineia",
+    when: "6 meses atrás",
+    text: "Gostaria de parabenizar a clínica pelo excelente trabalho que vem realizando. É notável o compromisso com a qualidade, a dedicação da equipe e o cuidado em oferecer sempre o melhor aos clientes. Destaco também o importante papel da clínica com as pessoas que têm deficiência, promovendo cuidado e respeito.",
+  },
+  {
+    name: "Júlia Ezitio",
+    when: "1 ano atrás",
+    text: "Já conhecia a antiga clínica em que o Dr. Alison atende, e a nova está lindíssima. Amei, sem falar no atendimento, que está excelente. Estou há quase três anos com o Alison e ele sempre foi atencioso e paciente.",
+  },
+  {
+    name: "Diego Gomes",
+    when: "6 meses atrás",
+    text: "Lugar aconchegante, calmo e bastante agradável.",
+  },
+  {
+    name: "Pedro Lucas",
+    when: "6 meses atrás",
+    text: "Lugar incrível, aconchegante e com ótimo atendimento.",
+  },
+  {
+    name: "Joellytton Nogueira",
+    when: "6 meses atrás",
+    text: "Melhor atendimento da cidade.",
+  },
+  {
+    name: "Michel Rocha Barbeiro",
+    when: "2 semanas atrás",
+    text: "Atendimento perfeito desde a recepção até o serviço. Mudou minha percepção sobre ir ao dentista!",
+  },
+  {
+    name: "Gelcimar Souza",
+    when: "6 meses atrás",
+    text: "Um lindo espaço, muito acolhedor, e o atendimento é de excelência!",
+  },
+];
+
 const fallback: Omit<SiteSettings, "id" | "updated_at"> = {
   hero_eyebrow: "Galeria de Saúde · Rio Branco — AC",
   hero_title_line1: "Saúde em sua",
@@ -26,6 +69,23 @@ const fallback: Omit<SiteSettings, "id" | "updated_at"> = {
 };
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Mosantt — Galeria de Saúde em Rio Branco" },
+      {
+        name: "description",
+        content:
+          "Conheça a Mosantt, galeria de clínicas e consultórios em Rio Branco, suas salas, estrutura e avaliações de pacientes.",
+      },
+      { property: "og:title", content: "Mosantt — Galeria de Saúde em Rio Branco" },
+      {
+        property: "og:description",
+        content: "Clínicas independentes, cuidado, design e atendimento 5 estrelas em Rio Branco.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   loader: () => getSiteContent(),
   component: Index,
   errorComponent: () => (
@@ -85,6 +145,7 @@ function Index() {
             <a href="#espaco" className="hover:text-oak transition-colors">O Espaço</a>
             <a href="#tour" className="hover:text-oak transition-colors">Tour</a>
             <a href="#salas" className="hover:text-oak transition-colors">Salas</a>
+            <a href="#avaliacoes" className="hover:text-oak transition-colors">Avaliações</a>
             <a href="#localizacao" className="hover:text-oak transition-colors">Localização</a>
           </div>
         </motion.nav>
@@ -305,6 +366,60 @@ function Index() {
               </div>
             </li>
           </ul>
+        </div>
+      </section>
+
+      <section id="avaliacoes" className="bg-leaf text-sand py-24 px-6 md:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-[0.7fr_1.3fr] gap-12 lg:gap-20 items-end mb-14">
+            <div>
+              <span className="text-[10px] uppercase tracking-[0.3em] text-oak font-semibold mb-4 block">
+                Experiências reais
+              </span>
+              <h2 className="font-serif text-4xl md:text-5xl leading-[1.05]">
+                Quem passa pela Mosantt, <span className="italic">recomenda.</span>
+              </h2>
+            </div>
+            <div className="flex items-end gap-6 lg:justify-end">
+              <strong className="font-serif text-7xl md:text-8xl font-normal leading-[0.75]">5,0</strong>
+              <div>
+                <div className="text-oak text-lg tracking-[0.18em]" aria-label="5 de 5 estrelas">
+                  ★★★★★
+                </div>
+                <p className="mt-2 text-xs uppercase tracking-[0.2em] text-sand/60">9 avaliações no Google</p>
+              </div>
+            </div>
+          </div>
+
+          <ul className="columns-1 md:columns-2 lg:columns-3 gap-4">
+            {reviews.map((review) => (
+              <li
+                key={review.name}
+                className="mb-4 break-inside-avoid border border-sand/15 bg-sand/5 p-6 md:p-7"
+              >
+                <div className="flex items-center justify-between gap-4 mb-6">
+                  <div className="text-oak text-xs tracking-[0.15em]" aria-hidden="true">★★★★★</div>
+                  <span className="text-[10px] text-sand/45 whitespace-nowrap">{review.when}</span>
+                </div>
+                <blockquote className="font-serif text-xl leading-relaxed text-sand/90">
+                  “{review.text}”
+                </blockquote>
+                <p className="mt-6 text-[10px] uppercase tracking-[0.2em] text-sand/55">{review.name}</p>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-10 flex flex-wrap items-center justify-between gap-5 border-t border-sand/15 pt-8">
+            <p className="text-sm font-light text-sand/60">Avaliações compartilhadas por pacientes e visitantes.</p>
+            <a
+              href={s.maps_url}
+              target="_blank"
+              rel="noreferrer"
+              className="text-xs uppercase tracking-[0.2em] text-sand underline underline-offset-8 decoration-oak/60 hover:text-oak transition-colors"
+            >
+              Ver no Google →
+            </a>
+          </div>
         </div>
       </section>
 
