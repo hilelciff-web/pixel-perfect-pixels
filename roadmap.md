@@ -6,3 +6,4 @@
 - [x] Login por e-mail/senha ativo, sem necessidade de confirmar e-mail
 - [x] Testado no navegador: cadastro, login, edição de texto, foto e vídeo
 - [x] Adicionar e validar a seção de avaliações do Google
+- [ ] Otimizar a página pública para celular e computador
